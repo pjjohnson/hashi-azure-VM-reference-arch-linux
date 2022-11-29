@@ -1,13 +1,18 @@
 ######################################
 # Create Public Ips
 ######################################
+resource "random_string" "randomsuffix" {
+  length           = 4
+  special          = false
+  upper = false
+}
 resource "azurerm_public_ip" "app-gateway" {
   name                = "${var.name}-app_gty_ip"
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   allocation_method   = "Static"
   sku                 = "Standard"
-  domain_name_label   = "${var.name}-demo"
+  domain_name_label   = "${var.name}-demo${random_string.randomsuffix.result}"
 }
 
 ######################################
