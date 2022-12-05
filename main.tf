@@ -18,6 +18,9 @@ provider "azurerm" {
   features {}
 }
 
+// data "azurerm_client_config" "current" { }
+
+
 resource "random_pet" "name" {
   prefix = var.resource_group_name_prefix
   length = 1
@@ -26,12 +29,12 @@ resource "random_pet" "name" {
 resource "random_password" "password" {
   length           = 16
   special          = true
-   override_special = "!#$%&*()-_=+[]{}<>:?"
+  override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
 resource "random_password" "dbpassword" {
-  length           = 16
-  special          = false
+  length  = 16
+  special = false
   # override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
@@ -154,4 +157,25 @@ module "db_SQLSERVER" {
   adminlogin          = var.sqladmin
   adminpwd            = random_password.dbpassword.result
   apisubnetid         = module.networks.api-subnet
+}
+
+##### 
+# Create Keyvault and store secrets in it
+#####
+module "kv" {
+  source              = "./modules/keyvault"
+  name                = random_pet.name.id
+  location            = var.resource_group_location
+  resource_group_name = azurerm_resource_group.rg.name
+  // tenant_id           = data.azurerm_client_config.current.tenant_id
+}
+resource "azurerm_key_vault_secret" "vmcred" {
+  name         = "vmcred"
+  value        = random_password.password.bcrypt_hash
+  key_vault_id = module.kv.id
+}
+resource "azurerm_key_vault_secret" "dbcred" {
+  name         = "dbcred"
+  value        = random_password.dbpassword.result
+  key_vault_id = module.kv.id
 }
