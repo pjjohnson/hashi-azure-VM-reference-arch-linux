@@ -13,8 +13,8 @@ output "dbpassword" {
 }
 
 output "appgwurl" {
-    #value = "http://${random_pet.name.id}.${var.resource_group_location}.cloudapp.azure.com"
-    value = "http://${module.networks.app-gtw-domainname}.${var.resource_group_location}.cloudapp.azure.com"
+  #value = "http://${random_pet.name.id}.${var.resource_group_location}.cloudapp.azure.com"
+  value = "http://${module.networks.app-gtw-domainname}.${var.resource_group_location}.cloudapp.azure.com"
 }
 
 
