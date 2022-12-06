@@ -187,9 +187,17 @@ resource "azurerm_key_vault_secret" "vmcred" {
   name         = "vmcred"
   value        = random_password.password.bcrypt_hash
   key_vault_id = module.kv.id
+
+  depends_on = [
+    module.kv.id
+  ]
 }
 resource "azurerm_key_vault_secret" "dbcred" {
   name         = "dbcred"
   value        = random_password.dbpassword.result
   key_vault_id = module.kv.id
+
+  depends_on = [
+    module.kv.id
+  ]
 }
