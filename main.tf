@@ -1,6 +1,15 @@
 # We strongly recommend using the required_providers block to set the
 # Azure Provider source and version being used
 terraform {
+  cloud {
+    organization = "larryclaman"
+    workspaces {
+      tags = ["azure-vm-ref-arch"]
+    }
+  }
+
+
+
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
