@@ -26,10 +26,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - uses: azure/login@v1
-      name: Azure Login
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    # - uses: azure/login@v1
+    #   name: Azure Login
+    #   with:
+    #     creds: ${{ secrets.AZURE_CREDENTIALS }}
     
     # Install the Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
@@ -42,6 +42,11 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
+      env:
+        ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
