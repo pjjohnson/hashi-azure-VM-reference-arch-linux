@@ -112,42 +112,42 @@ module "load_balancer" {
 module "web-vmss" {
   source                   = "./modules/vmss"
   name                     = "${random_pet.name.id}-web"
-  location  = var.resource_group_location
+  location                 = var.resource_group_location
   resource_group_name      = azurerm_resource_group.rg.name
   scale_set_sub            = module.networks.subnet3
-  type = "web"
+  type                     = "web"
   app_gty_backend_pool_ids = module.app-gateway.app_gateway.backend_address_pool[*].id
   admin_user               = var.admin_user
   admin_password           = random_password.password.bcrypt_hash
   # app provisioning
   custom_data = base64encode(templatefile("app/webinit.tmpl", {
-     api_private_ip = module.load_balancer.mid_tier_lb.private_ip_address,
-     web_image      = var.web_image
-     }
-    ) )
+    api_private_ip = module.load_balancer.mid_tier_lb.private_ip_address,
+    web_image      = var.web_image
+    }
+  ))
 }
 
 ######################################
 # Create biz scale set
 ######################################
 module "api-vmss" {
-  source                   = "./modules/vmss"
-  name                     = "${random_pet.name.id}-api"
-  location  = var.resource_group_location
-  resource_group_name      = azurerm_resource_group.rg.name
-  scale_set_sub            = module.networks.subnet4
-  type = "api"
-  lb_backend_pool_ids     = module.load_balancer.lb_pool_ids
-  admin_user               = var.admin_user
-  admin_password           = random_password.password.bcrypt_hash
+  source              = "./modules/vmss"
+  name                = "${random_pet.name.id}-api"
+  location            = var.resource_group_location
+  resource_group_name = azurerm_resource_group.rg.name
+  scale_set_sub       = module.networks.subnet4
+  type                = "api"
+  lb_backend_pool_ids = module.load_balancer.lb_pool_ids
+  admin_user          = var.admin_user
+  admin_password      = random_password.password.bcrypt_hash
   # app provisioning
   custom_data = base64encode(templatefile("app/apiinit.tmpl", {
-    api_image = var.api_image,
-   sql_server_fqdn     = module.db_SQLSERVER.sqlserver-fqdn ,
-   sql_username = var.sqladmin ,
-   sql_password = random_password.dbpassword.result 
-     }
-    ) )
+    api_image       = var.api_image,
+    sql_server_fqdn = module.db_SQLSERVER.sqlserver-fqdn,
+    sql_username    = var.sqladmin,
+    sql_password    = random_password.dbpassword.result
+    }
+  ))
 }
 
 ######################################
