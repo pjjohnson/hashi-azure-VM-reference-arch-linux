@@ -3,11 +3,11 @@
 ######################################
 
 # Accept terms
-resource "azurerm_marketplace_agreement" "flatcar" {
-  publisher = "kinvolk"
-  offer     = "flatcar-container-linux-free"
-  plan      = "stable-gen2"
-}
+# resource "azurerm_marketplace_agreement" "flatcar" {
+#   publisher = "kinvolk"
+#   offer     = "flatcar-container-linux-free"
+#   plan      = "stable-gen2"
+# }
 
 
 resource "azurerm_linux_virtual_machine_scale_set" "scale_set" {
