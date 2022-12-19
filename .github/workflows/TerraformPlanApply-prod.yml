@@ -16,7 +16,7 @@ on:
 env:
   # Per https://developer.hashicorp.com/terraform/cli/config/environment-variables
   TF_WORKSPACE: 'vm-ref-arch-prod'
-  varfile: 'dev.terraform.tfvars'
+  varfile: 'prod.terraform.tfvars'
   TF_IN_AUTOMATION: 1  # Tell terraform this is CI; purely cosmetic change to Terraform's human-readable output
   TF_INPUT: 0    # don't prompt for missing inputs
   #
@@ -72,7 +72,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: 'Plan'
     environment: 
+<<<<<<< HEAD
       name: 'ApplyDev'   # Apply environment has protection and requires approver
+=======
+      name: 'ApplyProd'   # Apply environment has protection and requires approver
+>>>>>>> feature-multiple-envs
       #url: ${{ steps.showurl.outputs.url_output }}
       url: ${{ env.URLOUTPUT}}
     # Run Apply if this is a workflow_dispatch (manual) run with the PlanApply input set to 1
