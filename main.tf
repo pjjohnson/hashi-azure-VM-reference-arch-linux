@@ -1,10 +1,15 @@
 # We strongly recommend using the required_providers block to set the
 # Azure Provider source and version being used
+
+
+
 terraform {
   cloud {
     organization = "larryclaman"
     workspaces {
-      tags = ["azure-vm-ref-arch"]
+      // This will choose all workspaces with this tag.  
+      // You will need to subsequently select the workspace for the run, eg 'terraform workspace select prod'
+      tags = ["azure-vm-ref-arch"]  
     }
   }
 
