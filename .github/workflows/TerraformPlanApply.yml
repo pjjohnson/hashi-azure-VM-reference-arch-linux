@@ -15,11 +15,12 @@ on:
 
 env:
   # Per https://developer.hashicorp.com/terraform/cli/config/environment-variables
-  TF_WORKSPACE: 'azure-vm-ref-arch-dev'
+  TF_WORKSPACE: 'vm-ref-arch-dev'
+  varfile: 'dev.terraform.tfvars'
   TF_IN_AUTOMATION: 1  # Tell terraform this is CI; purely cosmetic change to Terraform's human-readable output
   TF_INPUT: 0    # don't prompt for missing inputs
   #
-  varfile: 'dev.terraform.tfvars'
+
 
 
 jobs:
