@@ -1,4 +1,4 @@
-name: '2.0 - TerraformPlanApply PROD'
+name: '2.1 - Terraform Destroy PROD'
 
 on:
   workflow_dispatch:
@@ -91,8 +91,8 @@ jobs:
         terraform_wrapper: false  # need this false so that stdout is not wrapped for showurl step
     - name: Terraform Init
       run: terraform init
-    - name: Terraform Apply
-      run: terraform apply -var-file=$varfile -auto-approve 
+    - name: Terraform Destroy
+      run: terraform destroy -var-file=$varfile -auto-approve 
       env:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}

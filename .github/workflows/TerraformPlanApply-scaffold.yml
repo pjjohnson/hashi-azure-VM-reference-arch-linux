@@ -1,4 +1,4 @@
-name: '0 - TerraformPlanApply Pre-Reqs'
+name: '0.0 - Terraform PlanApply Scaffolding'
 
 on:
   workflow_dispatch:
@@ -15,8 +15,7 @@ on:
 
 env:
   # Per https://developer.hashicorp.com/terraform/cli/config/environment-variables
-  TF_WORKSPACE: 'vm-ref-arch-prereqs'
-  TF_CLI_ARGS: '-chdir=prereqs'
+  TF_WORKSPACE: 'vm-ref-arch-scaffold'
   #varfile: 'dev.terraform.tfvars'
   TF_IN_AUTOMATION: 1  # Tell terraform this is CI; purely cosmetic change to Terraform's human-readable output
   TF_INPUT: 0    # don't prompt for missing inputs
@@ -53,15 +52,15 @@ jobs:
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc. 
     - name: Terraform Init
-      run: terraform init
+      run: terraform -chdir=scaffolding init
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
-      run: terraform fmt -check -diff
+      run: terraform -chdir=scaffolding fmt -check -diff
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan 
+      run: terraform -chdir=scaffolding plan 
       env:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
@@ -87,19 +86,15 @@ jobs:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
         terraform_wrapper: false  # need this false so that stdout is not wrapped for showurl step
     - name: Terraform Init
-      run: terraform init
+      run: terraform -chdir=scaffolding init
     - name: Terraform Apply
-      run: terraform apply  -auto-approve 
+      run: terraform -chdir=scaffolding apply  -auto-approve 
       env:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-    - name: Display URL
-      id: showurl
-      run: |
-        URL_OUTPUT=$(terraform output -raw appgwurl)
-        echo "URLOUTPUT=$URL_OUTPUT" >> $GITHUB_ENV
+
     
 
        
