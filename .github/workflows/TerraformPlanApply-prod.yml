@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: 'Plan'
     environment: 
-      name: 'ApplyPROD'   # Apply environment has protection and requires approver
+      name: 'ApplyProd'   # Apply environment has protection and requires approver
       #url: ${{ steps.showurl.outputs.url_output }}
       url: ${{ env.URLOUTPUT}}
     # Run Apply if this is a workflow_dispatch (manual) run with the PlanApply input set to 1
