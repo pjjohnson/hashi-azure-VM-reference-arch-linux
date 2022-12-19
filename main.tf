@@ -1,9 +1,15 @@
 # We strongly recommend using the required_providers block to set the
 # Azure Provider source and version being used
+
+
+
 terraform {
   cloud {
     organization = "larryclaman"
     workspaces {
+      # This will choose all workspaces with this tag.  
+      # You will need to subsequently select the workspace for the run, eg 'terraform workspace select prod'
+      # or you will need to set the TF_WORKSPACE env variable
       tags = ["azure-vm-ref-arch"]
     }
   }
@@ -189,7 +195,7 @@ resource "azurerm_key_vault_secret" "vmcred" {
   key_vault_id = module.kv.id
 
   depends_on = [
-    module.kv.id
+    module.kv
   ]
 }
 resource "azurerm_key_vault_secret" "dbcred" {
@@ -198,6 +204,6 @@ resource "azurerm_key_vault_secret" "dbcred" {
   key_vault_id = module.kv.id
 
   depends_on = [
-    module.kv.id
+    module.kv
   ]
 }
