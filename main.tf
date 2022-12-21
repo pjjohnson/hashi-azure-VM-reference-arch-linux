@@ -195,7 +195,7 @@ resource "azurerm_key_vault_secret" "vmcred" {
   key_vault_id = module.kv.id
 
   depends_on = [
-    module.kv
+    module.kv.access_policy
   ]
 }
 resource "azurerm_key_vault_secret" "dbcred" {
@@ -204,6 +204,6 @@ resource "azurerm_key_vault_secret" "dbcred" {
   key_vault_id = module.kv.id
 
   depends_on = [
-    module.kv
+    module.kv.access_policy
   ]
 }
