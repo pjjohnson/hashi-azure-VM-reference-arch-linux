@@ -5,6 +5,10 @@
 # Terraform code. If you create a variable with no default, the user will be
 # prompted to enter it (or define it via config file or command line flags.)
 
+variable "resource_group_name" {
+  description = "Name of the resource group."
+}
+
 variable "resource_group_location" {
   default     = "EastUS"
   description = "Location of the resource group."
@@ -69,4 +73,12 @@ variable "dbname" {
   description = "Name of SQL Server db"
   default     = "mydb"
 
+}
+
+variable "web_image" {
+  description = "uri of container image used in web tier"
+}
+
+variable "api_image" {
+  description = "uri of container image used in api tier"
 }

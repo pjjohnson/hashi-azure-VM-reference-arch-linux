@@ -28,12 +28,15 @@ N-tier architectures are typically implemented as infrastructure-as-service (Iaa
 - Unified development of on-premises and cloud applications.
 - N-tier architectures are very common in traditional on-premises applications, so it's a natural fit for migrating existing workloads to Azure.
 
-## What we build
+## Sample N-Tier Deployment using Terraform
 
-<img width="800" alt="Architecture-diag2" src=https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/images/n-tier-physical-bastion.png>
-
+<!-- comment <img width="800" alt="Architecture-diag2" src=https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/images/n-tier-physical-bastion.png> -->
+![n-tier](arch.drawio.svg)
 ## How to deploy
 
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 1. Open a cloud Shell from the Azure portal
 2. Clone this repo by running this command:
 ```
@@ -60,38 +63,45 @@ terraform output password
 ```
 in your cloud shell session.
 -----------------
+
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | =3.26.0 |
-| <a name="requirement_random"></a> [random](#requirement\_random) | ~>3.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | =3.26.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | ~>3.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.26.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.4.3 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_api-vmss"></a> [api-vmss](#module\_api-vmss) | ./modules/vmss | n/a |
 | <a name="module_app-gateway"></a> [app-gateway](#module\_app-gateway) | ./modules/app_gateway | n/a |
 | <a name="module_bastion-host"></a> [bastion-host](#module\_bastion-host) | ./modules/management_tools | n/a |
-| <a name="module_biz_scale_sets"></a> [biz\_scale\_sets](#module\_biz\_scale\_sets) | ./modules/biz_scale_set | n/a |
+| <a name="module_db_SQLSERVER"></a> [db\_SQLSERVER](#module\_db\_SQLSERVER) | ./modules/SQLSERVER | n/a |
+| <a name="module_load_balancer"></a> [load\_balancer](#module\_load\_balancer) | ./modules/load_balancer | n/a |
 | <a name="module_networks"></a> [networks](#module\_networks) | ./modules/networks | n/a |
-| <a name="module_private-lb"></a> [private-lb](#module\_private-lb) | ./modules/load_balancer | n/a |
-| <a name="module_web_scale_sets"></a> [web\_scale\_sets](#module\_web\_scale\_sets) | ./modules/web_scale_set | n/a |
+| <a name="module_web-vmss"></a> [web-vmss](#module\_web-vmss) | ./modules/vmss | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
+| [azurerm_key_vault.kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/key_vault) | resource |
+| [azurerm_key_vault_access_policy.kvpolicy](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/key_vault_access_policy) | resource |
+| [azurerm_key_vault_secret.dbcred](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/key_vault_secret) | resource |
+| [azurerm_key_vault_secret.vmcred](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_resource_group.rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/resource_group) | resource |
+| [random_password.dbpassword](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
 | [random_password.password](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
 | [random_pet.name](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/pet) | resource |
+| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/client_config) | data source |
 
 ## Inputs
 
@@ -99,28 +109,30 @@ in your cloud shell session.
 |------|-------------|------|---------|:--------:|
 | <a name="input_admin_password"></a> [admin\_password](#input\_admin\_password) | Default password for admin account | `string` | `""` | no |
 | <a name="input_admin_user"></a> [admin\_user](#input\_admin\_user) | User name to use as the admin account on the VMs that will be part of the VM scale set | `string` | `"azureuser"` | no |
-| <a name="input_app_gtw_ip"></a> [app\_gtw\_ip](#input\_app\_gtw\_ip) | Name of the app gateway ip | `string` | `""` | no |
-| <a name="input_app_gtw_sub"></a> [app\_gtw\_sub](#input\_app\_gtw\_sub) | Name of the app gateway subnet | `string` | `""` | no |
-| <a name="input_bastion_public_ip"></a> [bastion\_public\_ip](#input\_bastion\_public\_ip) | bastion public ip | `string` | `""` | no |
-| <a name="input_bastion_subnet_id"></a> [bastion\_subnet\_id](#input\_bastion\_subnet\_id) | bastion subnet id | `string` | `""` | no |
-| <a name="input_lb_sub"></a> [lb\_sub](#input\_lb\_sub) | Name of the Lb subnet | `string` | `""` | no |
-| <a name="input_resource_group_location"></a> [resource\_group\_location](#input\_resource\_group\_location) | Location of the resource group. | `string` | `"eastus"` | no |
-| <a name="input_resource_group_name_prefix"></a> [resource\_group\_name\_prefix](#input\_resource\_group\_name\_prefix) | Prefix of the resource group name that's combined with a random ID so name is unique in your Azure subscription. | `string` | `"tf"` | no |
-| <a name="input_scale_set_sub"></a> [scale\_set\_sub](#input\_scale\_set\_sub) | Name of the scale set subnet | `string` | `""` | no |
+| <a name="input_api_image"></a> [api\_image](#input\_api\_image) | uri of container image used in api tier | `any` | n/a | yes |
+| <a name="input_dbname"></a> [dbname](#input\_dbname) | Name of SQL Server db | `string` | `"mydb"` | no |
+| <a name="input_resource_group_location"></a> [resource\_group\_location](#input\_resource\_group\_location) | Location of the resource group. | `string` | `"AustraliaCentral"` | no |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Name of the resource group. | `any` | n/a | yes |
+| <a name="input_resource_group_name_prefix"></a> [resource\_group\_name\_prefix](#input\_resource\_group\_name\_prefix) | Prefix of the resource group name that's combined with a random ID so name is unique in your Azure subscription. | `string` | `"ref-arch-demo"` | no |
+| <a name="input_sqladmin"></a> [sqladmin](#input\_sqladmin) | Name of SQL Admin user | `string` | `"dbadmin"` | no |
+| <a name="input_web_image"></a> [web\_image](#input\_web\_image) | uri of container image used in web tier | `any` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
 | <a name="output_app-gtw-ip"></a> [app-gtw-ip](#output\_app-gtw-ip) | n/a |
+| <a name="output_appgwurl"></a> [appgwurl](#output\_appgwurl) | n/a |
 | <a name="output_application_gateway_name"></a> [application\_gateway\_name](#output\_application\_gateway\_name) | n/a |
 | <a name="output_bastion-ip"></a> [bastion-ip](#output\_bastion-ip) | n/a |
 | <a name="output_bastion_dns_name"></a> [bastion\_dns\_name](#output\_bastion\_dns\_name) | n/a |
+| <a name="output_dbpassword"></a> [dbpassword](#output\_dbpassword) | n/a |
+| <a name="output_lb_backend_pool_ids"></a> [lb\_backend\_pool\_ids](#output\_lb\_backend\_pool\_ids) | n/a |
 | <a name="output_mid_tier_lb_name"></a> [mid\_tier\_lb\_name](#output\_mid\_tier\_lb\_name) | n/a |
 | <a name="output_password"></a> [password](#output\_password) | n/a |
 | <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name) | n/a |
-| <a name="output_subnet1_id"></a> [subnet1\_id](#output\_subnet1\_id) | n/a |
-| <a name="output_subnet2_id"></a> [subnet2\_id](#output\_subnet2\_id) | n/a |
-| <a name="output_subnet3_id"></a> [subnet3\_id](#output\_subnet3\_id) | n/a |
-| <a name="output_subnet4_id"></a> [subnet4\_id](#output\_subnet4\_id) | n/a |
-| <a name="output_subnet5_id"></a> [subnet5\_id](#output\_subnet5\_id) | n/a |
+| <a name="output_subnet-api"></a> [subnet-api](#output\_subnet-api) | n/a |
+| <a name="output_subnet-appgtw"></a> [subnet-appgtw](#output\_subnet-appgtw) | n/a |
+| <a name="output_subnet-data"></a> [subnet-data](#output\_subnet-data) | n/a |
+| <a name="output_subnet-mgmt"></a> [subnet-mgmt](#output\_subnet-mgmt) | n/a |
+| <a name="output_subnet-web"></a> [subnet-web](#output\_subnet-web) | n/a |

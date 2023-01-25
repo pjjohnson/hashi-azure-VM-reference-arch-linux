@@ -13,29 +13,29 @@ output "dbpassword" {
 }
 
 output "appgwurl" {
-    #value = "http://${random_pet.name.id}.${var.resource_group_location}.cloudapp.azure.com"
-    value = "http://${module.networks.app-gtw-domainname}.${var.resource_group_location}.cloudapp.azure.com"
+  #value = "http://${random_pet.name.id}.${var.resource_group_location}.cloudapp.azure.com"
+  value = "http://${module.networks.app-gtw-domainname}.${var.resource_group_location}.cloudapp.azure.com"
 }
 
 
-output "subnet1_id" {
-  value = module.networks.subnet1
+output "subnet-appgtw" {
+  value = module.networks.subnet-appgtw
 }
 
-output "subnet2_id" {
-  value = module.networks.subnet2
+output "subnet-mgmt" {
+  value = module.networks.subnet-mgmt
 }
 
-output "subnet3_id" {
-  value = module.networks.subnet3
+output "subnet-web" {
+  value = module.networks.subnet-web
 }
 
-output "subnet4_id" {
-  value = module.networks.subnet4
+output "subnet-api" {
+  value = module.networks.subnet-api
 }
 
-output "subnet5_id" {
-  value = module.networks.subnet5
+output "subnet-data" {
+  value = module.networks.subnet-data
 }
 
 output "app-gtw-ip" {
