@@ -6,12 +6,12 @@
 # prompted to enter it (or define it via config file or command line flags.)
 
 variable "resource_group_location" {
-  default     = "AustraliaCentral"
+  default     = "EastUS"
   description = "Location of the resource group."
 }
 
 variable "resource_group_name_prefix" {
-  default     = "tf"
+  default     = "pjtf"
   description = "Prefix of the resource group name that's combined with a random ID so name is unique in your Azure subscription."
 }
 
@@ -47,7 +47,7 @@ variable "resource_group_name_prefix" {
 
 variable "admin_user" {
   description = "User name to use as the admin account on the VMs that will be part of the VM scale set"
-  default     = "azureuser"
+  default     = "pjjoh"
 }
 
 variable "admin_password" {
