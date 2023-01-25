@@ -15,7 +15,7 @@ on:
 
 env:
   # Per https://developer.hashicorp.com/terraform/cli/config/environment-variables
-  TF_WORKSPACE: 'vm-ref-arch-prod'
+  TF_WORKSPACE: 'hashicorp-azure-demo-prod'
   varfile: 'prod.terraform.tfvars'
   TF_IN_AUTOMATION: 1  # Tell terraform this is CI; purely cosmetic change to Terraform's human-readable output
   TF_INPUT: 0    # don't prompt for missing inputs
