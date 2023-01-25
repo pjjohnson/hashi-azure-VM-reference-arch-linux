@@ -1,6 +1,6 @@
 terraform {
   cloud {
-    organization = "larryclaman"
+    organization = "Microsoft"
     workspaces {
       # This will choose all workspaces with this tag.  
       # You will need to subsequently select the workspace for the run, eg 'terraform workspace select prod'
