@@ -5,7 +5,7 @@
 
 terraform {
   cloud {
-    organization = "pjjohnson heh"
+    organization = "pjjohnson"
     workspaces {
       name = "hashicorp-azure-demo"
     }
