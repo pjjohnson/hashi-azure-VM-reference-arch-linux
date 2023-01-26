@@ -2,7 +2,7 @@ terraform {
   cloud {
     organization = "pjjohnson"
     workspaces {
-      name = "hashicorp-azure-demo-prod"
+      name = "hashicorp-azure-demo-scaffold"
     }
   }
 
