@@ -27,7 +27,7 @@ jobs:
   Plan:
     name: 'Plan'
     runs-on: ubuntu-latest
-
+    environment: Production
     defaults:
       run:
         shell: bash
@@ -46,8 +46,8 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2.0.3
       with:
-        terraform_version: ${{ vars.TF_VERSION }}
-        cli_config_credentials_token: ${{ secrets.TF_TOKEN }}
+        terraform_version: ${{ vars.TF_VERSION_PROD }}
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN_PROD }}
         terraform_wrapper: false
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc. 
@@ -62,10 +62,10 @@ jobs:
     - name: Terraform Plan
       run: terraform plan -var-file=$varfile
       env:
-        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID_PROD }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET_PROD }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID_PROD }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID_PROD }}
 
   Apply:
     name: 'Apply'
@@ -86,18 +86,18 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2.0.3
       with:
-        terraform_version: ${{ vars.TF_VERSION }}
-        cli_config_credentials_token: ${{ secrets.TF__TOKEN }}
+        terraform_version: ${{ vars.TF_VERSION_PROD }}
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN_PROD }}
         terraform_wrapper: false  # need this false so that stdout is not wrapped for showurl step
     - name: Terraform Init
       run: terraform init
     - name: Terraform Destroy
       run: terraform destroy -var-file=$varfile -auto-approve 
       env:
-        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID_PROD }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET_PROD }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID_PROD }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID_PROD }}
     # - name: Display URL
     #   id: showurl
     #   run: |
